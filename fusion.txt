@@ -1,0 +1,584 @@
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+
+
+namespace PrgFinalSujet3.Models
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Client> Clients { get; set; } // Table des clients
+        public DbSet<Reservation> Reservations { get; set; } // Table des réservations
+        public DbSet<Room> Rooms { get; set; } // Table des chambres
+        public DbSet<Menu> Menus { get; set; } // Table des menus
+        public DbSet<WellnessService> WellnessServices { get; set; } // Table des services bien-être
+        public DbSet<Event> Events { get; set; } // Table des événements
+    }
+}
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace PrgFinalSujet3.Models
+{
+   
+        // Modèle représentant un client de l'hôtel-restaurant
+        public class Client
+        {
+            public int Id { get; set; }
+            public string FirstName { get; set; } // Prénom du client
+            public string LastName { get; set; } // Nom du client
+            public string Email { get; set; } // Adresse e-mail
+            public string Phone { get; set; } // Numéro de téléphone
+        }
+    }
+
+namespace PrgFinalSujet3.Models
+{
+    public class ErrorViewModel
+    {
+        public string? RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
+}
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace PrgFinalSujet3.Models
+{
+    public class Event
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } // Nom de l'événement
+        public string Description { get; set; } // Description
+        public DateTime EventDate { get; set; } // Date de l'événement
+        public decimal Price { get; set; } // Prix (si payant)
+    }
+}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+namespace LeHeronCendre.Models
+{
+    public class LeHeronCendre : Controller
+    {
+        // GET: LeHeronCendre
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        // GET: LeHeronCendre/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: LeHeronCendre/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: LeHeronCendre/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: LeHeronCendre/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: LeHeronCendre/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: LeHeronCendre/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: LeHeronCendre/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace PrgFinalSujet3.Models
+{
+    public class Menu
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } // Nom du plat
+        public string Description { get; set; } // Description du plat
+        public decimal Price { get; set; } // Prix du plat
+        public string Category { get; set; } // Catégorie (ex. Entrée, Plat, Dessert)
+    }
+}
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace PrgFinalSujet3.Models
+{
+    // Modèle pour les réservations (hôtel, restaurant, spa, événements)
+    public class Reservation
+    {
+        public int Id { get; set; }
+        public int ClientId { get; set; } // Clé étrangère vers Client
+        public Client Client { get; set; } // Relation avec Client
+        public DateTime ReservationDate { get; set; } // Date de la réservation
+        public string Type { get; set; } // Type : "Hotel", "Restaurant", "Spa", "Event"
+        public string Details { get; set; } // Détails (ex. numéro de chambre, service spa)
+        public bool IsConfirmed { get; set; } // Statut de confirmation
+    }
+}
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace PrgFinalSujet3.Models
+{
+    public class Room
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } // Nom de la chambre (ex. "Chambre Deluxe")
+        public string Description { get; set; } // Description de la chambre
+        public decimal Price { get; set; } // Prix par nuit
+        public bool IsAvailable { get; set; } // Disponibilité
+    }
+}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+namespace PrgFinalSujet3.Models
+{
+    public class WellnessService
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } // Nom du service (ex. "Massage à l'eau de mer")
+        public string Description { get; set; } // Description du service
+        public decimal Price { get; set; } // Prix du service
+        public string Duration { get; set; } // Durée (ex. "1 heure")
+    }
+}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+
+namespace PrgFinalSujet3.Controllers
+{
+    // Contrôleur pour les activités locales
+    public class ActivitiesController : Controller
+    {
+        // Affiche la liste des activités locales
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+namespace PrgFinalSujet3.Controllers
+{
+    // Contrôleur pour le tableau de bord administratif
+    public class AdminController : Controller
+    {
+        private readonly AppDbContext _context;
+
+        public AdminController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // Affiche le tableau de bord admin
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        // Affiche la liste des réservations
+        public async Task<IActionResult> Reservations()
+        {
+            var reservations = await _context.Reservations.Include(r => r.Client).ToListAsync();
+            return View(reservations);
+        }
+    }
+}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+
+namespace PrgFinalSujet3.Controllers
+{
+    // Contrôleur pour le formulaire de contact
+    public class ContactController : Controller
+    {
+        // Affiche le formulaire de contact
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        // Traite la soumission du formulaire de contact
+        [HttpPost]
+        public IActionResult Index(string name, string email, string message)
+        {
+            // Logique pour traiter le message (ex. envoi par e-mail ou stockage)
+            ViewBag.Message = "Votre message a été envoyé avec succès.";
+            return View();
+        }
+    }
+}
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+namespace PrgFinalSujet3.Controllers
+{
+    // Contrôleur pour la gestion des événements
+    public class EventsController : Controller
+    {
+        private readonly AppDbContext _context;
+
+        public EventsController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // Affiche la liste des événements
+        public async Task<IActionResult> Index()
+        {
+            var events = await _context.Events.ToListAsync();
+            return View(events);
+        }
+
+        // Affiche le formulaire d'inscription
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // Traite la soumission du formulaire d'inscription
+        [HttpPost]
+        public async Task<IActionResult> Register(Reservation reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                reservation.Type = "Event";
+                reservation.IsConfirmed = false;
+                _context.Reservations.Add(reservation);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(reservation);
+        }
+    }
+}
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+
+
+namespace PrgFinalSujet3.Controllers
+{
+    // Contrôleur pour les pages principales du site
+    public class HomeController : Controller
+    {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
+        // Affiche la page d'accueil avec une introduction au complexe
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        // Affiche la page "À propos" avec l'histoire familiale
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+
+    
+}
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+namespace PrgFinalSujet3.Controllers
+{
+    
+        // Contrôleur pour la gestion des chambres et réservations d'hôtel
+        public class HotelController : Controller
+        {
+            private readonly AppDbContext _context;
+
+            public HotelController(AppDbContext context)
+            {
+                _context = context;
+            }
+
+            // Affiche la liste des chambres disponibles
+            public async Task<IActionResult> Index()
+            {
+                var rooms = await _context.Rooms.Where(r => r.IsAvailable).ToListAsync();
+                return View(rooms);
+            }
+
+            // Affiche le formulaire de réservation
+            public IActionResult Reserve()
+            {
+                return View();
+            }
+
+            // Traite la soumission du formulaire de réservation
+            [HttpPost]
+            public async Task<IActionResult> Reserve(Reservation reservation)
+            {
+                if (ModelState.IsValid)
+                {
+                    reservation.Type = "Hotel";
+                    reservation.IsConfirmed = false;
+                    _context.Reservations.Add(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                return View(reservation);
+            }
+        }
+    }
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace PrgFinalSujet3.Controllers
+{
+ 
+        // Contrôleur pour la gestion des menus et réservations de table
+        public class RestaurantController : Controller
+        {
+            private readonly AppDbContext _context;
+
+            public RestaurantController(AppDbContext context)
+            {
+                _context = context;
+            }
+
+            // Affiche la liste des menus
+            public async Task<IActionResult> Index()
+            {
+                var menus = await _context.Menus.ToListAsync();
+                return View(menus);
+            }
+
+            // Affiche le formulaire de réservation de table
+            public IActionResult Reserve()
+            {
+                return View();
+            }
+
+            // Traite la soumission du formulaire de réservation
+            [HttpPost]
+            public async Task<IActionResult> Reserve(Reservation reservation)
+            {
+                if (ModelState.IsValid)
+                {
+                    reservation.Type = "Restaurant";
+                    reservation.IsConfirmed = false;
+                    _context.Reservations.Add(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                return View(reservation);
+            }
+        }
+    } 
+
+    
+using Microsoft.AspNetCore.Mvc;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+namespace PrgFinalSujet3.Controllers
+{
+ // Contrôleur pour la gestion des services bien-être
+        public class WellnessController : Controller
+        {
+            private readonly AppDbContext _context;
+
+            public WellnessController(AppDbContext context)
+            {
+                _context = context;
+            }
+
+            // Affiche la liste des services bien-être
+            public async Task<IActionResult> Index()
+            {
+                var services = await _context.WellnessServices.ToListAsync();
+                return View(services);
+            }
+
+            // Affiche le formulaire de réservation
+            public IActionResult Book()
+            {
+                return View();
+            }
+
+            // Traite la soumission du formulaire de réservation
+            [HttpPost]
+            public async Task<IActionResult> Book(Reservation reservation)
+            {
+                if (ModelState.IsValid)
+                {
+                    reservation.Type = "Spa";
+                    reservation.IsConfirmed = false;
+                    _context.Reservations.Add(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                return View(reservation);
+            }
+        }
+    }
+
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using PrgFinalSujet3.Models;
+using Microsoft.EntityFrameworkCore;
+
+
+
+
+namespace PrgFinalSujet3.Models
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Client> Clients { get; set; } // Table des clients
+        public DbSet<Reservation> Reservations { get; set; } // Table des réservations
+        public DbSet<Room> Rooms { get; set; } // Table des chambres
+        public DbSet<Menu> Menus { get; set; } // Table des menus
+        public DbSet<WellnessService> WellnessServices { get; set; } // Table des services bien-être
+        public DbSet<Event> Events { get; set; } // Table des événements
+    }
+}
+using Microsoft.EntityFrameworkCore;
+using PrgFinalSujet3.Models;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
+
+        // Ajout des services MVC
+        builder.Services.AddControllersWithViews();
+
+        // Configuration du contexte de la base de données
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        var app = builder.Build();
+
+        // Configuration du pipeline HTTP
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
+
+        app.Run();
+    }
+}
